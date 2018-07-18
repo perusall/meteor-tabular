@@ -125,12 +125,19 @@ Template.tabular.onRendered(function () {
       template.tabular.ready.set(true);
 
       //console.log('ajax');
-
+      var data = _.clone(template.tabular.data);
+      _.each(data, row => {
+        _.each(_.keys(row), key => {
+          if (typeof row[key] === 'string') {
+            row[key] = Blaze._escape(row[key]);
+          }
+        });
+      });
       callback({
         draw: data.draw,
         recordsTotal: template.tabular.recordsTotal,
         recordsFiltered: template.tabular.recordsFiltered,
-        data: template.tabular.data
+        data
       });
 
     },
@@ -184,7 +191,7 @@ Template.tabular.onRendered(function () {
     var data = Template.currentData();
 
     //console.log('currentData autorun', data);
-    
+
     // if we don't have data OR the selector didn't actually change return out
     if (!data || (data.selector && template.tabular.selector === data.selector)) return;
 
