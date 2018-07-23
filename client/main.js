@@ -124,14 +124,16 @@ Template.tabular.onRendered(function () {
       // Matters on the first run only.
       template.tabular.ready.set(true);
 
-      //console.log('ajax');
-      var data = _.clone(template.tabular.data);
-      _.each(data, row => {
+      var data = _.map(template.tabular.data, row => {
+        var escapedRow = {};
         _.each(_.keys(row), key => {
           if (typeof row[key] === 'string') {
-            row[key] = Blaze._escape(row[key]);
+            escapedRow[key] = Blaze._escape(row[key]);
+          } else {
+            escapedRow[key] = row[key];
           }
         });
+        return escapedRow;
       });
       callback({
         draw: data.draw,
