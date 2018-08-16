@@ -438,15 +438,6 @@ Template.tabular.onRendered(function () {
     // Get data as array for DataTables to consume in the ajax function
     template.tabular.data = cursor.fetch();
 
-    // Escape data.
-    _.each(template.tabular.data, row => {
-      _.each(_.keys(row), key => {
-        if (typeof row[key] === 'string') {
-          row[key] = Blaze._escape(row[key]);
-        }
-      });
-    });
-
     // For these types of reactive changes, we don't want to
     // reset the page we're on, so we pass `false` as second arg.
     // The exception is if we changed the results-per-page number,

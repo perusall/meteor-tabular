@@ -47,6 +47,14 @@ function tableInit(tabularTable, template) {
       options.title = Blaze.toHTML(new Blaze.View(titleFunction));
     }
 
+    options.render = options.render || function(data, type) {
+      if (typeof data === 'string') {
+        return Blaze._escape(data);
+      } else {
+        return data;
+      }
+    };
+
     return options;
   });
 
